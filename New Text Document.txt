@@ -1,0 +1,50 @@
+public class WorkTime
+{
+    public int Id { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
+
+    // Property to calculate the duration of work
+    public TimeSpan WorkTimeSpan => EndTime - StartTime;
+
+    // Method to get formatted work duration
+    public string GetFormattedWorkDuration()
+    {
+        return $"{WorkTimeSpan.Days} days, {WorkTimeSpan.Hours} hours, {WorkTimeSpan.Minutes} minutes";
+    }
+}
+public class WorkTimeCalculator
+{
+    public static TimeSpan CalculateTotalWorkHours(List<WorkTime> workTimes)
+    {
+        TimeSpan totalWorkTime = TimeSpan.Zero;
+
+        foreach (var workTime in workTimes)
+        {
+            totalWorkTime += workTime.WorkTimeSpan;
+        }
+
+        return totalWorkTime;
+    }
+}using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        // Create a list of work times
+        List<WorkTime> workTimes = new List<WorkTime>
+        {
+            new WorkTime { Id = 1, StartTime = new DateTime(2024, 10, 28, 9, 0, 0), EndTime = new DateTime(2024, 10, 28, 17, 0, 0) },
+            new WorkTime { Id = 2, StartTime = new DateTime(2024, 10, 29, 9, 0, 0), EndTime = new DateTime(2024, 10, 29, 17, 30, 0) },
+            new WorkTime { Id = 3, StartTime = new DateTime(2024, 10, 30, 10, 0, 0), EndTime = new DateTime(2024, 10, 30, 15, 0, 0) }
+        };
+
+        // Calculate total work hours
+        TimeSpan totalWorkHours = WorkTimeCalculator.CalculateTotalWorkHours(workTimes);
+
+        // Output the total work hours
+        Console.WriteLine($"Total Work Hours: {totalWorkHours.Days} days, {totalWorkHours.Hours} hours, {totalWorkHours.Minutes} minutes");
+    }
+}
