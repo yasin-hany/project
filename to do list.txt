@@ -1,0 +1,44 @@
+using System.Collections.ObjectModel;
+using System.Windows;
+
+namespace ToDoListApp
+{
+    public partial class MainWindow : Window
+    {
+        // ObservableCollection to hold the tasks
+        private ObservableCollection<string> tasks;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            tasks = new ObservableCollection<string>();
+            TaskList.ItemsSource = tasks; // Bind the ListBox to the ObservableCollection
+        }
+
+        private void AddTask_Click(object sender, RoutedEventArgs e)
+        {
+            string task = TaskInput.Text.Trim();
+            if (!string.IsNullOrEmpty(task))
+            {
+                tasks.Add(task); // Add the task to the collection
+                TaskInput.Clear(); // Clear the input field
+            }
+            else
+            {
+                MessageBox.Show("Please enter a task.");
+            }
+        }
+
+        private void RemoveTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (TaskList.SelectedItem != null)
+            {
+                tasks.Remove(TaskList.SelectedItem.ToString()); // Remove the selected task
+            }
+            else
+            {
+                MessageBox.Show("Please select a task to remove.");
+            }
+        }
+    }
+}
